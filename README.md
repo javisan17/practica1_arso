@@ -46,7 +46,7 @@ Para asegurarte de estar trabajando con la última versión del código y poder 
 3. **Cambiar entre ramas**
    Si ya tienes una rama creada y quieres cambiarte a ella:
    ```bash
-   git checkout nombre-de-la-rama
+   git checkout nombre_de_la_rama
    ```
    Para ver en qué rama estás y las disponibles:
    ```bash
