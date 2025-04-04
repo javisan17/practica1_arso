@@ -19,7 +19,7 @@ Para descargar el repositorio en tu PC, sigue estos pasos:
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/javisan17/practica1-arso.git
+git clone https://github.com/javisan17/practica1-arso
 
 # Entrar en la carpeta del proyecto
 cd practica1_arso
