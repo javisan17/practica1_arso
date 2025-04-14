@@ -1,4 +1,4 @@
-import sys
+import sys, subprocess
 
 """
 OTRAS FUNCIONES QUE CORREGIR
@@ -21,3 +21,19 @@ def params(file):
     with open(file, "w") as file:
         file.write(str(n_servers))
 
+
+
+
+
+
+
+##LINEA 30 pfinal1.py
+
+"""
+#Crear nuevo usuario
+    subprocess.run(["newgrp", "lxd"])
+
+    #Importar imagen
+    subprocess.run(["lxc", "image", "import", "/mnt/vnx/repo/arso/ubuntu2004.tar.gz", "--alias",  IMAGE_DEFAULT])
+
+"""

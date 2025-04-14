@@ -127,7 +127,7 @@ def create_all(n_servers):
     """
 
     #Crear bridges lxdbr0 y lxdbr1
-    create_bridge(bridge_name=BRIDGES["LAN1"])
+    # create_bridge(bridge_name=BRIDGES["LAN1"]) YA ESTÁ CREADA
     config_bridge(bridge_name=BRIDGES["LAN1"], ipv4=BRIDGES_IPV4["lxdbr0"])
     create_bridge(bridge_name=BRIDGES["LAN2"])
     config_bridge(bridge_name=BRIDGES["LAN2"], ipv4=BRIDGES_IPV4["lxdbr1"])

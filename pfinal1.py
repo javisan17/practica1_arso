@@ -1,5 +1,5 @@
 import sys, subprocess
-from consts import VALID_ORDERS, DEFAULT_NUM_SERVERS, MIN_SERVERS, MAX_SERVERS, IMAGE_DEFAULT
+from consts import VALID_ORDERS, DEFAULT_SERVERS, MIN_SERVERS, MAX_SERVERS, IMAGE_DEFAULT
 from ordenes import create_all, show_console, start_all, list_containers, delete_all, load_num_servers
 
 
@@ -27,11 +27,7 @@ def main():
     Iniciar sesiones e imágenes
     """
 
-    #Crear nuevo usuario
-    subprocess.run(["newgrp", "lxc"])
-
-    #Importar imagen
-    subprocess.run(["lxc", "image", "import", "/mnt/vnx/repo/arso/ubuntu2004.tar.gz", "--alias",  IMAGE_DEFAULT])
+    ## 
 
     # Determinar número de servidores
     if orden == "create":
@@ -44,7 +40,7 @@ def main():
                 print(f"El número de servidores debe estar entre {MIN_SERVERS} y {MAX_SERVERS}.")
                 return
         else:
-            n_servers = DEFAULT_NUM_SERVERS
+            n_servers = DEFAULT_SERVERS
     else:
         # Para órdenes distintas de create, cargamos el número guardado
         try:
