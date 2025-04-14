@@ -1,16 +1,16 @@
 import subprocess, sys
-from consts import VM_NAMES,NUM_SERVERS_FILE, BRIDGES_IPV4, IP_LB, BRIDGES
+from consts import VM_NAMES, NUM_SERVERS_FILE, IMAGE_DEFAULT, BRIDGES_IPV4, IP_LB, BRIDGES
 
 
 """
 LXC CONTAINERS
 """
-def create_container(name, image):
+def create_container(name):
     """
     Crear un contenedor a partir de una imagen
     """
 
-    subprocess.run(["lxc", "init", image, name], check=True)
+    subprocess.run(["lxc", "init", IMAGE_DEFAULT, name], check=True)
 
 
 def start_container(name):
@@ -121,7 +121,7 @@ network:
 """
 ORDENES
 """
-def create_all(n_servers, image):
+def create_all(n_servers):
     """
     Crea la red completa (CREATE)
     """
@@ -134,12 +134,12 @@ def create_all(n_servers, image):
 
     #Crear servidores
     for i in range(n_servers):
-        create_container(name=VM_NAMES["servidores"][i], image=image)
+        create_container(name=VM_NAMES["servidores"][i])
         config_container(name=VM_NAMES["servidores"][i], iface="eth0", ip=f"134.3.0.1{i}")
         attach_network(container=VM_NAMES["servidores"][i], bridge=BRIDGES["LAN1"], iface="eth0")
     
     #Crear balanceador
-    create_container(name=VM_NAMES["balanceador"], image=image)
+    create_container(name=VM_NAMES["balanceador"])
     attach_network(container=VM_NAMES["balanceador"], bridge=BRIDGES["LAN1"], iface="eth0")
     config_container(name=VM_NAMES["balanceador"], iface="eth0", ip=IP_LB["eth0"])
     attach_network(container=VM_NAMES["balanceador"], bridge=BRIDGES["LAN2"], iface="eth1")
@@ -147,7 +147,7 @@ def create_all(n_servers, image):
     change_netplan_lb()
 
     #Crear cliente
-    create_container(name=VM_NAMES["cliente"], image=image)
+    create_container(name=VM_NAMES["cliente"])
     attach_network(container=VM_NAMES["cliente"], bridge=BRIDGES["LAN2"], iface="eth1")
     config_container(name=VM_NAMES["cliente"], iface="eth1", ip="134.3.1.11")
 
@@ -156,6 +156,10 @@ def create_all(n_servers, image):
 
 
 def show_console(n_servers):
+    """
+    Mostrar por consola los contenedores
+    """
+
     contenedores=[VM_NAMES["servidores"][i] for i in range(n_servers)] + [VM_NAMES["cliente"], VM_NAMES["balanceador"]]
 
     for c in contenedores:

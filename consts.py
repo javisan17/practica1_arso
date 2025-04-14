@@ -7,7 +7,7 @@ DEFAULT_SERVER=2
 MIN_SERVERS=1
 MAX_SERVERS=5
 
-IMAGE_DEFAULT = "ubuntu:20.04"
+IMAGE_DEFAULT = "ubuntu2004"
 
 VM_NAMES = {
     "cliente": "cl",
