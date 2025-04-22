@@ -3,6 +3,26 @@ from consts import VM_NAMES, NUM_SERVERS_FILE, IMAGE_DEFAULT, BRIDGES_IPV4, IP_L
 
 
 """
+LXC IMAGE
+"""
+def create_image():
+    """
+    Crear una nueva imagen con el alias asignado
+    """
+
+    subprocess.run(["lxc", "image", "import", "/mnt/vnx/repo/arso/ubuntu2004.tar.gz", "--alias", IMAGE_DEFAULT], check=True)
+
+
+def create_user():
+    """
+    Añadir un nuevo usuario para evitar problemas de compatibilidad
+    """
+
+    subprocess.run(["newgrp", "lxd"], check=True)
+    subprocess.run(["lxd", "init", "--auto"], check=True)
+
+
+"""
 LXC CONTAINERS
 """
 def create_container(name):
@@ -19,6 +39,14 @@ def start_container(name):
     """
     
     subprocess.run(["lxc", "start", name], check=True)
+
+
+def stop_container(name):
+    """
+    Parar un contenedor
+    """
+    
+    subprocess.run(["lxc", "stop", name], check=True)
 
 
 def delete_container(name):
@@ -108,11 +136,11 @@ network:
             dhcp4: true
     """
     # Guardar temporalmente el archivo
-    with open("50-cloud-init.yaml", "w") as file:
+    with open("static/files/50-cloud-init.yaml", "w") as file:
         file.write(config_yaml)
 
     # Copiar al contenedor
-    subprocess.run(["lxc", "file", "push", "50-cloud-init.yaml", "lb/etc/netplan/50-cloud-init.yaml"], check=True)
+    subprocess.run(["lxc", "file", "push", "static/files/50-cloud-init.yaml", "lb/etc/netplan/50-cloud-init.yaml"], check=True)
 
     # Aplicar configuración dentro del contenedor ?????
     subprocess.run(["lxc", "exec", "lb", "--", "netplan", "apply"], check=True)
@@ -125,6 +153,12 @@ def create_all(n_servers):
     """
     Crea la red completa (CREATE)
     """
+
+    #Crear usuario
+    create_user()
+
+    #Crear imagen
+    create_image()
 
     #Crear bridges lxdbr0 y lxdbr1
     # create_bridge(bridge_name=BRIDGES["LAN1"]) YA ESTÁ CREADA
@@ -144,7 +178,11 @@ def create_all(n_servers):
     config_container(name=VM_NAMES["balanceador"], iface="eth0", ip=IP_LB["eth0"])
     attach_network(container=VM_NAMES["balanceador"], bridge=BRIDGES["LAN2"], iface="eth1")
     config_container(name=VM_NAMES["balanceador"], iface="eth1", ip=IP_LB["eth1"])
+
+    ### MUCHOS PROBLEMAS CON CAMBIAR ESTE ARCHIVO (probar --mode=0644)
+    start_container(name=VM_NAMES["balanceador"])
     change_netplan_lb()
+    stop_container(name=VM_NAMES["balanceador"]) 
 
     #Crear cliente
     create_container(name=VM_NAMES["cliente"])

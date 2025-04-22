@@ -27,7 +27,7 @@ def main():
     Iniciar sesiones e imágenes
     """
 
-    ## 
+    ##
 
     # Determinar número de servidores
     if orden == "create":
