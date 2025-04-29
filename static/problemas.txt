@@ -1,0 +1,9 @@
+Logs
+problemas con los perfiles 
+    -Las IPs no se configuran bien
+    -Conectar cliente solo a eth1
+problemas con conectar el lb a dos eth
+
+Archivo 50...
+
+Ns si se debe hacer el newgrp lxc y lxd init --auto en consola directamente

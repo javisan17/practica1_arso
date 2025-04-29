@@ -29,7 +29,7 @@ def main():
 
     ##
 
-    # Determinar número de servidores
+    #Determinar número de servidores
     if orden == "create":
         if len(sys.argv) == 3:
             try:
@@ -40,9 +40,10 @@ def main():
                 print(f"El número de servidores debe estar entre {MIN_SERVERS} y {MAX_SERVERS}.")
                 return
         else:
+            #Para cuando no haya un número de servidores, se pone el default 
             n_servers = DEFAULT_SERVERS
     else:
-        # Para órdenes distintas de create, cargamos el número guardado
+        #Para órdenes distintas de create, cargamos el número guardado
         try:
             n_servers = load_num_servers()
         except FileNotFoundError:

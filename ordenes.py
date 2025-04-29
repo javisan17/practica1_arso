@@ -13,13 +13,12 @@ def create_image():
     subprocess.run(["lxc", "image", "import", "/mnt/vnx/repo/arso/ubuntu2004.tar.gz", "--alias", IMAGE_DEFAULT], check=True)
 
 
-def create_user():
+def delete_image():
     """
-    Añadir un nuevo usuario para evitar problemas de compatibilidad
+    Eliminar imagen creada de ubuntu
     """
 
-    subprocess.run(["newgrp", "lxd"], check=True)
-    subprocess.run(["lxd", "init", "--auto"], check=True)
+    subprocess.run(["lxc", "image", "delete", IMAGE_DEFAULT])
 
 
 """
@@ -31,6 +30,9 @@ def create_container(name):
     """
 
     subprocess.run(["lxc", "init", IMAGE_DEFAULT, name], check=True)
+
+    ###CREAR VACIO DA PROBLEMAS
+    #subprocess.run(["lxc", "config", "device", "remove", "name", "eth0"], check=True)
 
 
 def start_container(name):
@@ -135,14 +137,14 @@ network:
         eth1:
             dhcp4: true
     """
-    # Guardar temporalmente el archivo
+    #Guardar temporalmente el archivo
     with open("static/files/50-cloud-init.yaml", "w") as file:
         file.write(config_yaml)
 
-    # Copiar al contenedor
+    #Copiar al contenedor
     subprocess.run(["lxc", "file", "push", "static/files/50-cloud-init.yaml", "lb/etc/netplan/50-cloud-init.yaml"], check=True)
 
-    # Aplicar configuración dentro del contenedor ?????
+    #Aplicar configuración dentro del contenedor ?????
     subprocess.run(["lxc", "exec", "lb", "--", "netplan", "apply"], check=True)
 
 
@@ -154,14 +156,11 @@ def create_all(n_servers):
     Crea la red completa (CREATE)
     """
 
-    #Crear usuario
-    create_user()
-
     #Crear imagen
     create_image()
 
     #Crear bridges lxdbr0 y lxdbr1
-    # create_bridge(bridge_name=BRIDGES["LAN1"]) YA ESTÁ CREADA
+    ### create_bridge(bridge_name=BRIDGES["LAN1"]) YA ESTÁ CREADA
     config_bridge(bridge_name=BRIDGES["LAN1"], ipv4=BRIDGES_IPV4["lxdbr0"])
     create_bridge(bridge_name=BRIDGES["LAN2"])
     config_bridge(bridge_name=BRIDGES["LAN2"], ipv4=BRIDGES_IPV4["lxdbr1"])
@@ -169,8 +168,8 @@ def create_all(n_servers):
     #Crear servidores
     for i in range(n_servers):
         create_container(name=VM_NAMES["servidores"][i])
-        config_container(name=VM_NAMES["servidores"][i], iface="eth0", ip=f"134.3.0.1{i}")
         attach_network(container=VM_NAMES["servidores"][i], bridge=BRIDGES["LAN1"], iface="eth0")
+        config_container(name=VM_NAMES["servidores"][i], iface="eth0", ip=f"134.3.0.1{i}")
     
     #Crear balanceador
     create_container(name=VM_NAMES["balanceador"])
@@ -182,7 +181,8 @@ def create_all(n_servers):
     ### MUCHOS PROBLEMAS CON CAMBIAR ESTE ARCHIVO (probar --mode=0644)
     start_container(name=VM_NAMES["balanceador"])
     change_netplan_lb()
-    stop_container(name=VM_NAMES["balanceador"]) 
+    subprocess.run(["lxc", "exec", "lb", "--", "shutdown", "-r", "now"])
+    ###stop_container(name=VM_NAMES["balanceador"]) 
 
     #Crear cliente
     create_container(name=VM_NAMES["cliente"])
@@ -228,6 +228,9 @@ def delete_all(n_servers):
     """
     Eliminar todo (VM y conexiones)
     """
+
+    #Eliminar imagen
+    delete_image()
 
     #Eliminar contenedores
     for i in range(n_servers):
