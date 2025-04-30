@@ -57,9 +57,11 @@ def main():
 
     elif orden == "create_server":
         create_server()
+        n_servers = n_servers + 1 
     
     elif orden == "delete_last_server":
         delete_last_server()
+        n_servers = n_servers - 1
 
     elif orden == "start_server":
         if len(sys.argv) < 3:
