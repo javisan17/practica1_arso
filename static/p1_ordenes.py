@@ -1,14 +1,7 @@
-import subprocess, sys, logging, json
+import subprocess, sys, json
 from consts import VM_NAMES, NUM_SERVERS_FILE, IMAGE_DEFAULT, BRIDGES_IPV4, IP_LB, BRIDGES
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("pfinal.log"),
-        logging.StreamHandler()
-    ]
-)
+
 
 
 """

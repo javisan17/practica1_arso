@@ -1,166 +1,40 @@
-import subprocess, sys
-from consts import VM_NAMES, NUM_SERVERS_FILE, IMAGE_DEFAULT, BRIDGES_IPV4, IP_LB, BRIDGES
+import subprocess
+from consts import VM_NAMES, NUM_SERVERS_FILE, IMAGE_DEFAULT, BRIDGES_IPV4, IP_LB, BRIDGES, MAX_SERVERS, MIN_SERVERS
+from logger import setup_logger, get_logger
+from utils.containers import create_container, start_container, stop_container, delete_container, config_container
+from utils.image import create_image, delete_image
+from utils.bridges import create_bridge, config_bridge, attach_network, delete_bridge
+from utils.file import save_num_servers
+from utils.balanceador import change_netplan
 
 
 """
-LXC IMAGE
+Inicializar LOGGINS
 """
-def create_image():
-    """
-    Crear una nueva imagen con el alias asignado
-    """
-
-    subprocess.run(["lxc", "image", "import", "/mnt/vnx/repo/arso/ubuntu2004.tar.gz", "--alias", IMAGE_DEFAULT], check=True)
 
 
-def delete_image():
-    """
-    Eliminar imagen creada de ubuntu
-    """
-
-    subprocess.run(["lxc", "image", "delete", IMAGE_DEFAULT])
-
-
-"""
-LXC CONTAINERS
-"""
-def create_container(name):
-    """
-    Crear un contenedor a partir de una imagen
-    """
-
-    subprocess.run(["lxc", "init", IMAGE_DEFAULT, name], check=True)
-
-    ###CREAR VACIO DA PROBLEMAS
-    #subprocess.run(["lxc", "config", "device", "remove", "name", "eth0"], check=True)
-
-
-def start_container(name):
-    """
-    Arrancar un contenedor
-    """
-    
-    subprocess.run(["lxc", "start", name], check=True)
-
-
-def stop_container(name):
-    """
-    Parar un contenedor
-    """
-    
-    subprocess.run(["lxc", "stop", name], check=True)
-
-
-def delete_container(name):
-    """
-    Eliminar un contenedor
-    """
-    
-    subprocess.run(["lxc", "delete", name, "--force"], check=True)
-
-
-"""
-LXC Bridges
-"""
-def create_bridge(bridge_name):
-    """
-    Crear un bridge
-    """
-
-    subprocess.run(["lxc", "network", "create", bridge_name], check=True)
-
-
-def config_bridge(bridge_name, ipv4):
-    """
-    Configurar los bridges
-    """
-
-    subprocess.run(["lxc", "network", "set", bridge_name, "ipv4.nat", "true"], check=True)
-    subprocess.run(["lxc", "network", "set", bridge_name, "ipv4.address", ipv4], check=True)
-    subprocess.run(["lxc", "network", "set", bridge_name, "ipv6.nat", "false"], check=True)
-    subprocess.run(["lxc", "network", "set", bridge_name, "ipv6.address", "none"], check=True)
-    subprocess.run(["lxc", "network", "set", bridge_name, "dns.domain", "lxd"], check=True)
-    subprocess.run(["lxc", "network", "set", bridge_name, "dns.mode", "none"], check=True)
-
-
-def attach_network(container, bridge, iface):
-    """
-    Conectar un contenedor a un bridge en una tarjeta de red (ethx)
-    """
-
-    subprocess.run(["lxc", "network", "attach", bridge, container, iface], check=True)
-
-
-def delete_bridge(bridge):
-    """
-    Eliminar un bridge
-    """
-
-    subprocess.run(["lxc", "network", "delete", bridge])
-
-
-def config_container(name, iface, ip):
-    """
-    Configurar un contenedor en una red
-    """
-
-    subprocess.run(["lxc", "config", "device", "set", name, iface, "ipv4.address", ip])
-
-
-"""
-FILE
-"""
-def save_num_servers(n):
-    with open(NUM_SERVERS_FILE, "w") as file:
-        file.write(str(n))
-
-
-def load_num_servers():
-    with open(NUM_SERVERS_FILE, "r") as file:
-        return int(file.read())
-
-
-"""
-LB
-"""
-def change_netplan_lb():
-    """
-    Modifica el archivo /etc/netplan/50-cloud-init.yaml
-    """
-
-    config_yaml = """
-network:
-    version: 2
-    ethernets:
-        eth0:
-            dhcp4: true
-        eth1:
-            dhcp4: true
-    """
-    #Guardar temporalmente el archivo
-    with open("static/files/50-cloud-init.yaml", "w") as file:
-        file.write(config_yaml)
-
-    #Copiar al contenedor
-    subprocess.run(["lxc", "file", "push", "static/files/50-cloud-init.yaml", "lb/etc/netplan/50-cloud-init.yaml"], check=True)
-
-    #Aplicar configuración dentro del contenedor ?????
-    subprocess.run(["lxc", "exec", "lb", "--", "netplan", "apply"], check=True)
+setup_logger()
+logger = get_logger()
 
 
 """
 ORDENES
 """
+
+
 def create_all(n_servers):
     """
-    Crea la red completa (CREATE)
+    Crea la infraesctrutura de la red completa (CREATE)
     """
+
+    logger.info(f"Iniciando creación de infraestructura con {n_servers} servidores")
+
 
     #Crear imagen
     create_image()
 
     #Crear bridges lxdbr0 y lxdbr1
-    ### create_bridge(bridge_name=BRIDGES["LAN1"]) YA ESTÁ CREADA
+   # create_bridge(bridge_name=BRIDGES["LAN1"])
     config_bridge(bridge_name=BRIDGES["LAN1"], ipv4=BRIDGES_IPV4["lxdbr0"])
     create_bridge(bridge_name=BRIDGES["LAN2"])
     config_bridge(bridge_name=BRIDGES["LAN2"], ipv4=BRIDGES_IPV4["lxdbr1"])
@@ -169,7 +43,7 @@ def create_all(n_servers):
     for i in range(n_servers):
         create_container(name=VM_NAMES["servidores"][i])
         attach_network(container=VM_NAMES["servidores"][i], bridge=BRIDGES["LAN1"], iface="eth0")
-        config_container(name=VM_NAMES["servidores"][i], iface="eth0", ip=f"134.3.0.1{i}")
+        config_container(name=VM_NAMES["servidores"][i], iface="eth0", ip=f"134.3.0.1{i+1}")
     
     #Crear balanceador
     create_container(name=VM_NAMES["balanceador"])
@@ -180,17 +54,24 @@ def create_all(n_servers):
 
     ### MUCHOS PROBLEMAS CON CAMBIAR ESTE ARCHIVO (probar --mode=0644)
     start_container(name=VM_NAMES["balanceador"])
-    change_netplan_lb()
-    subprocess.run(["lxc", "exec", "lb", "--", "shutdown", "-r", "now"])
-    ###stop_container(name=VM_NAMES["balanceador"]) 
+    change_netplan(name=VM_NAMES["balanceador"])
+   # subprocess.run(["lxc", "exec", "lb", "--", "shutdown", "-r", "now"])
+    stop_container(name=VM_NAMES["balanceador"]) 
 
     #Crear cliente
     create_container(name=VM_NAMES["cliente"])
+   # detach_network(container=VM_NAMES["cliente"], bridge=BRIDGES["LAN1"], iface="eth0")
     attach_network(container=VM_NAMES["cliente"], bridge=BRIDGES["LAN2"], iface="eth1")
     config_container(name=VM_NAMES["cliente"], iface="eth1", ip="134.3.1.11")
+    start_container(name=VM_NAMES["cliente"])
+    change_netplan(name=VM_NAMES["cliente"])
+    stop_container(name=VM_NAMES["cliente"])
+
 
     #Guardar número de servidores
     save_num_servers(n_servers)
+
+    logger.info("Infraestructura creada correctamente.")
 
 
 def show_console(n_servers):
@@ -203,6 +84,7 @@ def show_console(n_servers):
     for c in contenedores:
         orden=f"lxc exec {c} bash"
         subprocess.Popen(["xterm", "-e", orden])
+        logger.info(f"Consola del contenedor {c} abierta correctamente")
 
 
 def start_all(n_servers):
@@ -214,6 +96,7 @@ def start_all(n_servers):
         start_container(VM_NAMES["servidores"][i])
     start_container(VM_NAMES["cliente"])
     start_container(VM_NAMES["balanceador"])
+    logger.info("Todos los contenedores han sido iniciados")
 
 
 def list_containers():
@@ -221,6 +104,7 @@ def list_containers():
     Listar los contenedor
     """
 
+    logger.info("Listando contenedores")
     subprocess.run(["lxc", "list"])
 
 
@@ -228,6 +112,9 @@ def delete_all(n_servers):
     """
     Eliminar todo (VM y conexiones)
     """
+
+    logger.info("Eliminando toda la infraestructura")
+
 
     #Eliminar imagen
     delete_image()
@@ -241,3 +128,101 @@ def delete_all(n_servers):
     #Eliminar conexiones (bridges)
     for bridge in BRIDGES.values():
         delete_bridge(bridge=bridge)
+
+    logger.info("Eliminación completada.")
+
+
+"""
+Ordenes opcionales
+"""
+
+def create_server ():
+    """
+    Crear el siguiente servidor disponible entre s1 y s5.
+    """
+
+    logger.info("Buscando servidor libre para crear...")
+
+    for i in range(MAX_SERVERS):
+        name = VM_NAMES["servidores"][i]
+        result = subprocess.run(["lxc", "info", name], capture_output=True, text=True)
+        if "not found" in result.stderr:
+            logger.info(f"Creando nuevo servidor disponible: {name}")
+            create_container(name=name)
+            attach_network(container=name, bridge=BRIDGES["LAN1"], iface="eth0")
+            ip=f"134.3.0.1{i+1}"
+            config_container(name=name, iface="eth0", ip=ip)
+            logger.info(f"Servidor {name} creado correctamente con IP {ip} ")
+            return
+
+    logger.warning(f"Ya existen {MAX_SERVERS}  servidores. No se puede crear más.")
+
+def delete_last_server():
+    """
+    Eliminar el ultimo servidor disponible entre s1 y s5.
+    """
+
+    logger.info("Buscando último servidor para eliminar...")
+
+    for i in reversed(range(MAX_SERVERS)):
+        name = VM_NAMES["servidores"][i]
+        result = subprocess.run(["lxc", "info", name], capture_output=True, text=True)
+        if "not found" not in result.stderr:
+            logger.info(f"Eliminando servidor: {name}")
+            delete_container(name=name)
+            logger.info(f"Servidor {name} eliminado correctamente.")
+            return
+
+    logger.warning("No hay servidores creados. No se puede eliminar ninguno.")
+
+
+def start_server(name):
+    """
+    Arrancar el servidor de nombre que se pase por parámetro
+    """
+
+    logger.info(f"Solicitado arrancar servidor: {name}")
+
+    #Verificar que el nombre está en la lista permitida
+    if name not in VM_NAMES["servidores"]:
+        logger.error(f"Nombre de servidor inválido: {name}")
+        return
+
+    #Verificar si el contenedor existe
+    result = subprocess.run(["lxc", "info", name], capture_output=True, text=True)
+    if "not found" in result.stderr:
+        logger.warning(f"El contenedor {name} no existe.")
+        return
+
+    #Verificar si está corriendo
+    if "Status: RUNNING" in result.stdout:
+        logger.info(f"Servidor {name} ya está corriendo.")
+    else:
+        start_container(name=name)
+        logger.info(f"Servidor {name} corriendo correctamente.")
+
+
+def stop_server(name):
+    """
+    Detener el servidor de nombre que se pase por parámetro
+    """
+
+    logger.info(f"Solicitado parar servidor: {name}")
+
+    #Verificar que el nombre está en la lista permitida
+    if name not in VM_NAMES["servidores"]:
+        logger.error(f"Nombre de servidor inválido: {name}")
+        return
+
+    #Verificar si el contenedor existe
+    result = subprocess.run(["lxc", "info", name], capture_output=True, text=True)
+    if "not found" in result.stderr:
+        logger.warning(f"El contenedor {name} no existe.")
+        return
+
+    #Verificar si está corriendo
+    if "Status: RUNNING" in result.stdout:
+        stop_container(name)
+        logger.info(f"Servidor {name} detenido correctamente.")
+    else:
+        logger.info(f"Servidor {name} ya estaba detenido.")

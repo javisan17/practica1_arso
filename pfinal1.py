@@ -1,17 +1,7 @@
 import sys, subprocess
 from consts import VALID_ORDERS, DEFAULT_SERVERS, MIN_SERVERS, MAX_SERVERS, IMAGE_DEFAULT
-from ordenes import create_all, show_console, start_all, list_containers, delete_all, load_num_servers
-
-
-
-"""
-Configurar logs
-"""
-
-
-
-
-
+from ordenes import create_all, show_console, start_all, list_containers, delete_all, create_server, delete_last_server, start_server, stop_server
+from utils.file import load_num_servers
 
 def main():
     if len(sys.argv) < 2:
@@ -23,11 +13,11 @@ def main():
         print(f"Orden no válida. Usa alguna de: {VALID_ORDERS}")
         return
     
+    
     """
     Iniciar sesiones e imágenes
     """
 
-    ##
 
     #Determinar número de servidores
     if orden == "create":
@@ -50,10 +40,11 @@ def main():
             print("No se ha encontrado información de servidores. Ejecuta primero 'create'.")
             return
 
-    #CREATE
+   #ORDENES 
 
     if orden == "create":
         create_all(n_servers=n_servers)
+
     elif orden == "start":
         start_all(n_servers=n_servers)
         show_console(n_servers)
@@ -64,6 +55,25 @@ def main():
     elif orden == "delete":
         delete_all(n_servers=n_servers)
 
+    elif orden == "create_server":
+        create_server()
+    
+    elif orden == "delete_last_server":
+        delete_last_server()
+
+    elif orden == "start_server":
+        if len(sys.argv) < 3:
+            print("Uso: python3 pfinal1.py start_server <nombre_servidor>")
+            sys.exit(1)
+        name = sys.argv[2]
+        start_server(name=name)
+    
+    elif orden == "stop_server":
+        if len(sys.argv) < 3:
+            print("Uso: python3 pfinal1.py stop_server <nombre_servidor>")
+            sys.exit(1)
+        name = sys.argv[2]
+        stop_server(name=name)
 
 if __name__ == "__main__":
     main()
