@@ -1,7 +1,2 @@
-problemas con los perfiles 
-    -Las IPs no se configuran bien
-    -Conectar cliente solo a eth1
-problemas con conectar el lb a dos eth
-
-??Archivo 50...
-Probar a no cambiar archivo sino usar nano y cambiar manualmente
+El cliente también está conectado a eth0, pero sin IP y los paquetes y datos saldrán por la eth1 hacia el balanceador
+Lo de arriba es un problema entre comillas. Funciona bien igualmente

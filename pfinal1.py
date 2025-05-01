@@ -1,7 +1,8 @@
 import sys, subprocess
 from consts import VALID_ORDERS, DEFAULT_SERVERS, MIN_SERVERS, MAX_SERVERS, IMAGE_DEFAULT
-from ordenes import create_all, show_console, start_all, list_containers, delete_all, create_server, delete_last_server, start_server, stop_server
+from ordenes import create_all, start_all, list_containers, delete_all, stop_all, create_server, delete_last_server, start_server, stop_server
 from utils.file import load_num_servers
+from utils.console import show_consoles, show_console, close_consoles
 
 def main():
     if len(sys.argv) < 2:
@@ -47,13 +48,17 @@ def main():
 
     elif orden == "start":
         start_all(n_servers=n_servers)
-        show_console(n_servers)
+        show_consoles(n_servers=n_servers)
     
     elif orden == "list":
         list_containers()
 
     elif orden == "delete":
         delete_all(n_servers=n_servers)
+
+    elif orden == "stop":
+        stop_all(n_servers=n_servers)
+        close_consoles(n_servers=n_servers)
 
     elif orden == "create_server":
         create_server()
@@ -69,6 +74,7 @@ def main():
             sys.exit(1)
         name = sys.argv[2]
         start_server(name=name)
+        show_console(name=name)
     
     elif orden == "stop_server":
         if len(sys.argv) < 3:

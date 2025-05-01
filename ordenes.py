@@ -34,7 +34,7 @@ def create_all(n_servers):
     create_image()
 
     #Crear bridges lxdbr0 y lxdbr1
-    create_bridge(bridge_name=BRIDGES["LAN1"])
+  # create_bridge(bridge_name=BRIDGES["LAN1"])
     config_bridge(bridge_name=BRIDGES["LAN1"], ipv4=BRIDGES_IPV4["lxdbr0"])
     create_bridge(bridge_name=BRIDGES["LAN2"])
     config_bridge(bridge_name=BRIDGES["LAN2"], ipv4=BRIDGES_IPV4["lxdbr1"])
@@ -44,6 +44,10 @@ def create_all(n_servers):
         create_container(name=VM_NAMES["servidores"][i])
         attach_network(container=VM_NAMES["servidores"][i], bridge=BRIDGES["LAN1"], iface="eth0")
         config_container(name=VM_NAMES["servidores"][i], iface="eth0", ip=f"134.3.0.1{i+1}")
+
+    #Guardar número de servidores
+    save_num_servers(n_servers)
+    logger.info("Número de servidores guardados correctamente")
     
     #Crear balanceador
     create_container(name=VM_NAMES["balanceador"])
@@ -55,36 +59,17 @@ def create_all(n_servers):
     ### MUCHOS PROBLEMAS CON CAMBIAR ESTE ARCHIVO (probar --mode=0644)
     start_container(name=VM_NAMES["balanceador"])
     change_netplan(name=VM_NAMES["balanceador"])
-   # subprocess.run(["lxc", "exec", "lb", "--", "shutdown", "-r", "now"])
     stop_container(name=VM_NAMES["balanceador"]) 
 
     #Crear cliente
     create_container(name=VM_NAMES["cliente"])
-   # detach_network(container=VM_NAMES["cliente"], bridge=BRIDGES["LAN1"], iface="eth0")
     attach_network(container=VM_NAMES["cliente"], bridge=BRIDGES["LAN2"], iface="eth1")
     config_container(name=VM_NAMES["cliente"], iface="eth1", ip="134.3.1.11")
     start_container(name=VM_NAMES["cliente"])
     change_netplan(name=VM_NAMES["cliente"])
     stop_container(name=VM_NAMES["cliente"])
 
-
-    #Guardar número de servidores
-    save_num_servers(n_servers)
-
     logger.info("Infraestructura creada correctamente.")
-
-
-def show_console(n_servers):
-    """
-    Mostrar por consola los contenedores
-    """
-
-    contenedores=[VM_NAMES["servidores"][i] for i in range(n_servers)] + [VM_NAMES["cliente"], VM_NAMES["balanceador"]]
-
-    for c in contenedores:
-        orden=f"lxc exec {c} bash"
-        subprocess.Popen(["xterm", "-e", orden])
-        logger.info(f"Consola del contenedor {c} abierta correctamente")
 
 
 def start_all(n_servers):
@@ -126,8 +111,9 @@ def delete_all(n_servers):
     delete_container(name=VM_NAMES["balanceador"])
 
     #Eliminar conexiones (bridges)
-    for bridge in BRIDGES.values():
-        delete_bridge(bridge=bridge)
+    # for bridge in BRIDGES.values():
+    #     delete_bridge(bridge=bridge)
+    delete_bridge(bridge=BRIDGES["LAN2"])
 
     logger.info("Eliminación completada.")
 
@@ -135,6 +121,19 @@ def delete_all(n_servers):
 """
 Ordenes opcionales
 """
+
+
+def stop_all(n_servers):
+    """
+    Parar todos los contenedores
+    """
+
+    for i in range(n_servers):
+        stop_container(VM_NAMES["servidores"][i])
+    stop_container(VM_NAMES["cliente"])
+    stop_container(VM_NAMES["balanceador"])
+    logger.info("Todos los contenedores han sido parados")
+
 
 def create_server ():
     """
