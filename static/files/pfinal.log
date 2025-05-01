@@ -513,3 +513,254 @@
 2025-05-01 12:44:12,886 - INFO - Contenedor eliminado: lb
 2025-05-01 12:44:13,247 - INFO - Bridge eliminado: lxdbr1
 2025-05-01 12:44:13,247 - INFO - Eliminación completada.
+2025-05-01 13:02:07,733 - INFO - Iniciando creación de infraestructura con 1 servidores
+2025-05-01 13:02:09,414 - INFO - Imagen ubuntu2004 importada con éxito.
+2025-05-01 13:02:09,442 - INFO - 134.3.0.1/24 asignada correctamente al bridge: lxdbr0
+2025-05-01 13:02:09,505 - INFO - Bridge configurado correctamente: lxdbr0
+2025-05-01 13:02:11,123 - INFO - Bridge creado: lxdbr1
+2025-05-01 13:02:12,013 - INFO - 134.3.1.1/24 asignada correctamente al bridge: lxdbr1
+2025-05-01 13:02:15,582 - INFO - Bridge configurado correctamente: lxdbr1
+2025-05-01 13:02:25,216 - INFO - Contenedor s1 creado con éxito.
+2025-05-01 13:02:25,256 - INFO - Conectando s1 al bridge lxdbr0 por eth0
+2025-05-01 13:02:25,288 - INFO - Contenedor s1 conectado a eth0 con ip 134.3.0.11 
+2025-05-01 13:02:25,289 - INFO - Número de servidores 1 guardados correctamente
+2025-05-01 13:02:25,289 - INFO - Número de servidores guardados correctamente
+2025-05-01 13:02:35,180 - INFO - Contenedor lb creado con éxito.
+2025-05-01 13:02:35,229 - INFO - Conectando lb al bridge lxdbr0 por eth0
+2025-05-01 13:02:35,266 - INFO - Contenedor lb conectado a eth0 con ip 134.3.0.10 
+2025-05-01 13:02:35,311 - INFO - Conectando lb al bridge lxdbr1 por eth1
+2025-05-01 13:02:35,351 - INFO - Contenedor lb conectado a eth1 con ip 134.3.1.10 
+2025-05-01 13:02:35,750 - INFO - Contenedor iniciado: lb
+2025-05-01 13:02:39,570 - INFO - Contenedor parado: lb
+2025-05-01 13:02:49,380 - INFO - Contenedor cl creado con éxito.
+2025-05-01 13:02:49,419 - INFO - Conectando cl al bridge lxdbr1 por eth1
+2025-05-01 13:02:49,457 - INFO - Contenedor cl conectado a eth1 con ip 134.3.1.11 
+2025-05-01 13:02:49,882 - INFO - Contenedor iniciado: cl
+2025-05-01 13:02:53,357 - INFO - Contenedor parado: cl
+2025-05-01 13:02:53,357 - INFO - Infraestructura creada correctamente.
+2025-05-01 13:03:01,014 - INFO - Contenedor iniciado: s1
+2025-05-01 13:03:01,402 - INFO - Contenedor iniciado: cl
+2025-05-01 13:03:01,798 - INFO - Contenedor iniciado: lb
+2025-05-01 13:03:01,798 - INFO - Todos los contenedores han sido iniciados
+2025-05-01 13:03:01,799 - INFO - Consola del contenedor s1 abierta correctamente
+2025-05-01 13:03:01,802 - INFO - Consola del contenedor cl abierta correctamente
+2025-05-01 13:03:01,808 - INFO - Consola del contenedor lb abierta correctamente
+2025-05-01 13:03:06,472 - INFO - Listando contenedores
+2025-05-01 13:08:49,417 - INFO - Eliminando toda la infraestructura
+2025-05-01 13:08:49,495 - INFO - Imagen local eliminada con éxito.
+2025-05-01 13:08:51,217 - INFO - Contenedor eliminado: s1
+2025-05-01 13:08:53,132 - INFO - Contenedor eliminado: cl
+2025-05-01 13:08:55,155 - INFO - Contenedor eliminado: lb
+2025-05-01 13:08:55,536 - INFO - Bridge eliminado: lxdbr1
+2025-05-01 13:08:55,536 - INFO - Eliminación completada.
+2025-05-01 13:09:47,571 - INFO - Listando contenedores
+2025-05-01 13:09:50,760 - INFO - Iniciando creación de infraestructura con 1 servidores
+2025-05-01 13:09:52,446 - INFO - Imagen ubuntu2004 importada con éxito.
+2025-05-01 13:09:52,474 - INFO - 134.3.0.1/24 asignada correctamente al bridge: lxdbr0
+2025-05-01 13:09:52,542 - INFO - Bridge configurado correctamente: lxdbr0
+2025-05-01 13:09:54,156 - INFO - Bridge creado: lxdbr1
+2025-05-01 13:09:55,014 - INFO - 134.3.1.1/24 asignada correctamente al bridge: lxdbr1
+2025-05-01 13:09:58,605 - INFO - Bridge configurado correctamente: lxdbr1
+2025-05-01 13:10:08,341 - INFO - Contenedor s1 creado con éxito.
+2025-05-01 13:10:08,377 - INFO - Conectando s1 al bridge lxdbr0 por eth0
+2025-05-01 13:10:08,405 - INFO - Contenedor s1 conectado a eth0 con ip 134.3.0.11 
+2025-05-01 13:10:08,407 - INFO - Número de servidores 1 guardados correctamente
+2025-05-01 13:10:08,407 - INFO - Número de servidores guardados correctamente
+2025-05-01 13:10:18,377 - INFO - Contenedor lb creado con éxito.
+2025-05-01 13:10:18,427 - INFO - Conectando lb al bridge lxdbr0 por eth0
+2025-05-01 13:10:18,473 - INFO - Contenedor lb conectado a eth0 con ip 134.3.0.10 
+2025-05-01 13:10:18,562 - INFO - Conectando lb al bridge lxdbr1 por eth1
+2025-05-01 13:10:18,605 - INFO - Contenedor lb conectado a eth1 con ip 134.3.1.10 
+2025-05-01 13:10:19,714 - INFO - Contenedor iniciado: lb
+2025-05-01 13:15:58,387 - INFO - Eliminando toda la infraestructura
+2025-05-01 13:15:58,471 - INFO - Imagen local eliminada con éxito.
+2025-05-01 13:15:59,277 - INFO - Contenedor eliminado: s1
+2025-05-01 13:16:32,679 - INFO - Iniciando creación de infraestructura con 1 servidores
+2025-05-01 13:16:34,346 - INFO - Imagen ubuntu2004 importada con éxito.
+2025-05-01 13:16:34,379 - INFO - 134.3.0.1/24 asignada correctamente al bridge: lxdbr0
+2025-05-01 13:16:34,442 - INFO - Bridge configurado correctamente: lxdbr0
+2025-05-01 13:16:36,054 - INFO - Bridge creado: lxdbr1
+2025-05-01 13:16:36,964 - INFO - 134.3.1.1/24 asignada correctamente al bridge: lxdbr1
+2025-05-01 13:16:40,502 - INFO - Bridge configurado correctamente: lxdbr1
+2025-05-01 13:16:50,282 - INFO - Contenedor s1 creado con éxito.
+2025-05-01 13:16:50,317 - INFO - Conectando s1 al bridge lxdbr0 por eth0
+2025-05-01 13:16:50,346 - INFO - Contenedor s1 conectado a eth0 con ip 134.3.0.11 
+2025-05-01 13:16:50,348 - INFO - Número de servidores 1 guardados correctamente
+2025-05-01 13:16:50,348 - INFO - Número de servidores guardados correctamente
+2025-05-01 13:17:00,738 - INFO - Contenedor lb creado con éxito.
+2025-05-01 13:17:00,778 - INFO - Conectando lb al bridge lxdbr0 por eth0
+2025-05-01 13:17:00,809 - INFO - Contenedor lb conectado a eth0 con ip 134.3.0.10 
+2025-05-01 13:17:00,883 - INFO - Conectando lb al bridge lxdbr1 por eth1
+2025-05-01 13:17:00,913 - INFO - Contenedor lb conectado a eth1 con ip 134.3.1.10 
+2025-05-01 13:17:01,370 - INFO - Contenedor iniciado: lb
+2025-05-01 13:17:05,070 - INFO - Contenedor parado: lb
+2025-05-01 13:17:15,333 - INFO - Contenedor cl creado con éxito.
+2025-05-01 13:17:15,372 - INFO - Conectando cl al bridge lxdbr1 por eth1
+2025-05-01 13:17:15,403 - INFO - Contenedor cl conectado a eth1 con ip 134.3.1.11 
+2025-05-01 13:17:15,736 - INFO - Contenedor iniciado: cl
+2025-05-01 13:23:57,741 - INFO - Eliminando toda la infraestructura
+2025-05-01 13:23:57,822 - INFO - Imagen local eliminada con éxito.
+2025-05-01 13:23:58,637 - INFO - Contenedor eliminado: s1
+2025-05-01 13:24:00,565 - INFO - Contenedor eliminado: cl
+2025-05-01 13:24:01,364 - INFO - Contenedor eliminado: lb
+2025-05-01 13:24:01,705 - INFO - Bridge eliminado: lxdbr1
+2025-05-01 13:24:01,705 - INFO - Eliminación completada.
+2025-05-01 13:24:05,509 - INFO - Iniciando creación de infraestructura con 1 servidores
+2025-05-01 13:24:07,194 - INFO - Imagen ubuntu2004 importada con éxito.
+2025-05-01 13:24:07,221 - INFO - 134.3.0.1/24 asignada correctamente al bridge: lxdbr0
+2025-05-01 13:24:07,281 - INFO - Bridge configurado correctamente: lxdbr0
+2025-05-01 13:24:08,895 - INFO - Bridge creado: lxdbr1
+2025-05-01 13:24:09,830 - INFO - 134.3.1.1/24 asignada correctamente al bridge: lxdbr1
+2025-05-01 13:24:13,357 - INFO - Bridge configurado correctamente: lxdbr1
+2025-05-01 13:24:23,123 - INFO - Contenedor s1 creado con éxito.
+2025-05-01 13:24:23,170 - INFO - Conectando s1 al bridge lxdbr0 por eth0
+2025-05-01 13:24:23,206 - INFO - Contenedor s1 conectado a eth0 con ip 134.3.0.11 
+2025-05-01 13:24:23,208 - INFO - Número de servidores 1 guardados correctamente
+2025-05-01 13:24:23,208 - INFO - Número de servidores guardados correctamente
+2025-05-01 13:24:33,743 - INFO - Contenedor lb creado con éxito.
+2025-05-01 13:24:33,783 - INFO - Conectando lb al bridge lxdbr0 por eth0
+2025-05-01 13:24:33,811 - INFO - Contenedor lb conectado a eth0 con ip 134.3.0.10 
+2025-05-01 13:24:33,849 - INFO - Conectando lb al bridge lxdbr1 por eth1
+2025-05-01 13:24:33,884 - INFO - Contenedor lb conectado a eth1 con ip 134.3.1.10 
+2025-05-01 13:24:34,328 - INFO - Contenedor iniciado: lb
+2025-05-01 13:24:37,986 - INFO - Contenedor parado: lb
+2025-05-01 13:24:48,218 - INFO - Contenedor cl creado con éxito.
+2025-05-01 13:24:48,251 - INFO - Conectando cl al bridge lxdbr1 por eth1
+2025-05-01 13:24:48,284 - INFO - Contenedor cl conectado a eth1 con ip 134.3.1.11 
+2025-05-01 13:24:48,684 - INFO - Contenedor iniciado: cl
+2025-05-01 13:24:52,331 - INFO - Contenedor parado: cl
+2025-05-01 13:24:52,331 - INFO - Infraestructura creada correctamente.
+2025-05-01 13:24:58,002 - INFO - Contenedor iniciado: s1
+2025-05-01 13:24:58,343 - INFO - Contenedor iniciado: cl
+2025-05-01 13:24:58,733 - INFO - Contenedor iniciado: lb
+2025-05-01 13:24:58,733 - INFO - Todos los contenedores han sido iniciados
+2025-05-01 13:24:58,734 - INFO - Consola del contenedor s1 abierta correctamente
+2025-05-01 13:24:58,738 - INFO - Consola del contenedor cl abierta correctamente
+2025-05-01 13:24:58,744 - INFO - Consola del contenedor lb abierta correctamente
+2025-05-01 13:25:09,088 - INFO - Listando contenedores
+2025-05-01 13:25:22,993 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:25:23,035 - INFO - Creando nuevo servidor disponible: s2
+2025-05-01 13:25:34,894 - INFO - Contenedor s2 creado con éxito.
+2025-05-01 13:25:34,967 - INFO - Conectando s2 al bridge lxdbr0 por eth0
+2025-05-01 13:25:35,150 - INFO - Contenedor s2 conectado a eth0 con ip 134.3.0.12 
+2025-05-01 13:25:35,151 - INFO - Servidor s2 creado correctamente con IP 134.3.0.12 
+2025-05-01 13:25:47,407 - INFO - Listando contenedores
+2025-05-01 13:25:56,642 - INFO - Solicitado arrancar servidor: s2
+2025-05-01 13:25:57,717 - INFO - Contenedor iniciado: s2
+2025-05-01 13:25:57,717 - INFO - Servidor s2 corriendo correctamente.
+2025-05-01 13:25:57,719 - INFO - Consola del contenedor s2 abierta correctamente
+2025-05-01 13:26:25,450 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:26:25,508 - INFO - Eliminando servidor: s2
+2025-05-01 13:26:27,352 - INFO - Contenedor eliminado: s2
+2025-05-01 13:26:27,352 - INFO - Servidor s2 eliminado correctamente.
+2025-05-01 13:26:51,906 - INFO - Listando contenedores
+2025-05-01 13:27:00,094 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:27:00,154 - INFO - Eliminando servidor: s1
+2025-05-01 13:27:01,914 - INFO - Contenedor eliminado: s1
+2025-05-01 13:27:01,914 - INFO - Servidor s1 eliminado correctamente.
+2025-05-01 13:27:05,697 - INFO - Listando contenedores
+2025-05-01 13:27:12,231 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:27:12,252 - INFO - Creando nuevo servidor disponible: s1
+2025-05-01 13:27:22,165 - INFO - Contenedor s1 creado con éxito.
+2025-05-01 13:27:22,205 - INFO - Conectando s1 al bridge lxdbr0 por eth0
+2025-05-01 13:27:22,235 - INFO - Contenedor s1 conectado a eth0 con ip 134.3.0.11 
+2025-05-01 13:27:22,235 - INFO - Servidor s1 creado correctamente con IP 134.3.0.11 
+2025-05-01 13:27:44,456 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:27:44,520 - INFO - Eliminando servidor: s1
+2025-05-01 13:27:45,346 - INFO - Contenedor eliminado: s1
+2025-05-01 13:27:45,346 - INFO - Servidor s1 eliminado correctamente.
+2025-05-01 13:27:46,688 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:27:46,751 - WARNING - No hay servidores creados. No se puede eliminar ninguno.
+2025-05-01 13:27:50,182 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:27:50,195 - INFO - Creando nuevo servidor disponible: s1
+2025-05-01 13:27:59,965 - INFO - Contenedor s1 creado con éxito.
+2025-05-01 13:28:00,040 - INFO - Conectando s1 al bridge lxdbr0 por eth0
+2025-05-01 13:28:00,081 - INFO - Contenedor s1 conectado a eth0 con ip 134.3.0.11 
+2025-05-01 13:28:00,081 - INFO - Servidor s1 creado correctamente con IP 134.3.0.11 
+2025-05-01 13:28:01,326 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:28:01,351 - INFO - Creando nuevo servidor disponible: s2
+2025-05-01 13:28:11,112 - INFO - Contenedor s2 creado con éxito.
+2025-05-01 13:28:11,151 - INFO - Conectando s2 al bridge lxdbr0 por eth0
+2025-05-01 13:28:11,186 - INFO - Contenedor s2 conectado a eth0 con ip 134.3.0.12 
+2025-05-01 13:28:11,187 - INFO - Servidor s2 creado correctamente con IP 134.3.0.12 
+2025-05-01 13:28:12,800 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:28:12,842 - INFO - Creando nuevo servidor disponible: s3
+2025-05-01 13:28:22,796 - INFO - Contenedor s3 creado con éxito.
+2025-05-01 13:28:22,840 - INFO - Conectando s3 al bridge lxdbr0 por eth0
+2025-05-01 13:28:22,871 - INFO - Contenedor s3 conectado a eth0 con ip 134.3.0.13 
+2025-05-01 13:28:22,871 - INFO - Servidor s3 creado correctamente con IP 134.3.0.13 
+2025-05-01 13:28:28,615 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:28:28,682 - INFO - Creando nuevo servidor disponible: s4
+2025-05-01 13:28:38,589 - INFO - Contenedor s4 creado con éxito.
+2025-05-01 13:28:38,628 - INFO - Conectando s4 al bridge lxdbr0 por eth0
+2025-05-01 13:28:38,659 - INFO - Contenedor s4 conectado a eth0 con ip 134.3.0.14 
+2025-05-01 13:28:38,659 - INFO - Servidor s4 creado correctamente con IP 134.3.0.14 
+2025-05-01 13:28:40,886 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:28:40,963 - INFO - Creando nuevo servidor disponible: s5
+2025-05-01 13:28:51,933 - INFO - Contenedor s5 creado con éxito.
+2025-05-01 13:28:51,981 - INFO - Conectando s5 al bridge lxdbr0 por eth0
+2025-05-01 13:28:52,018 - INFO - Contenedor s5 conectado a eth0 con ip 134.3.0.15 
+2025-05-01 13:28:52,018 - INFO - Servidor s5 creado correctamente con IP 134.3.0.15 
+2025-05-01 13:28:52,951 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:28:53,024 - WARNING - Ya existen 5  servidores. No se puede crear más.
+2025-05-01 13:32:16,282 - INFO - Buscando servidor libre para crear...
+2025-05-01 13:32:16,355 - WARNING - Ya existen 5  servidores. No se puede crear más.
+2025-05-01 13:32:30,484 - INFO - Listando contenedores
+2025-05-01 13:32:34,647 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:32:34,666 - INFO - Eliminando servidor: s5
+2025-05-01 13:32:35,469 - INFO - Contenedor eliminado: s5
+2025-05-01 13:32:35,469 - INFO - Servidor s5 eliminado correctamente.
+2025-05-01 13:32:36,401 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:32:36,426 - INFO - Eliminando servidor: s4
+2025-05-01 13:32:37,218 - INFO - Contenedor eliminado: s4
+2025-05-01 13:32:37,218 - INFO - Servidor s4 eliminado correctamente.
+2025-05-01 13:32:38,140 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:32:38,180 - INFO - Eliminando servidor: s3
+2025-05-01 13:32:38,932 - INFO - Contenedor eliminado: s3
+2025-05-01 13:32:38,932 - INFO - Servidor s3 eliminado correctamente.
+2025-05-01 13:32:39,840 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:32:39,893 - INFO - Eliminando servidor: s2
+2025-05-01 13:32:40,694 - INFO - Contenedor eliminado: s2
+2025-05-01 13:32:40,694 - INFO - Servidor s2 eliminado correctamente.
+2025-05-01 13:32:41,504 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:32:41,570 - INFO - Eliminando servidor: s1
+2025-05-01 13:32:42,417 - INFO - Contenedor eliminado: s1
+2025-05-01 13:32:42,417 - INFO - Servidor s1 eliminado correctamente.
+2025-05-01 13:32:44,483 - INFO - Buscando último servidor para eliminar...
+2025-05-01 13:32:44,538 - WARNING - No hay servidores creados. No se puede eliminar ninguno.
+2025-05-01 13:36:26,975 - INFO - Iniciando creación de infraestructura con 1 servidores
+2025-05-01 13:36:32,055 - INFO - Imagen ubuntu2004 importada con éxito.
+2025-05-01 13:48:57,558 - INFO - Iniciando creación de infraestructura con 1 servidores
+2025-05-01 13:48:59,226 - INFO - Imagen ubuntu2004 importada con éxito.
+2025-05-01 13:49:00,842 - INFO - Bridge creado: lxdbr0
+2025-05-01 13:49:01,730 - INFO - 134.3.0.1/24 asignada correctamente al bridge: lxdbr0
+2025-05-01 13:49:05,087 - INFO - Bridge configurado correctamente: lxdbr0
+2025-05-01 13:49:06,703 - INFO - Bridge creado: lxdbr1
+2025-05-01 13:49:07,561 - INFO - 134.3.1.1/24 asignada correctamente al bridge: lxdbr1
+2025-05-01 13:49:10,986 - INFO - Bridge configurado correctamente: lxdbr1
+2025-05-01 13:49:20,647 - INFO - Contenedor s1 creado con éxito.
+2025-05-01 13:49:20,681 - INFO - Conectando s1 al bridge lxdbr0 por eth0
+2025-05-01 13:49:20,709 - INFO - Contenedor s1 conectado a eth0 con ip 134.3.0.11 
+2025-05-01 13:49:20,710 - INFO - Número de servidores 1 guardados correctamente
+2025-05-01 13:49:20,711 - INFO - Número de servidores guardados correctamente
+2025-05-01 13:49:30,619 - INFO - Contenedor lb creado con éxito.
+2025-05-01 13:49:30,651 - INFO - Conectando lb al bridge lxdbr0 por eth0
+2025-05-01 13:49:30,682 - INFO - Contenedor lb conectado a eth0 con ip 134.3.0.10 
+2025-05-01 13:49:30,721 - INFO - Conectando lb al bridge lxdbr1 por eth1
+2025-05-01 13:49:30,751 - INFO - Contenedor lb conectado a eth1 con ip 134.3.1.10 
+2025-05-01 13:49:31,104 - INFO - Contenedor iniciado: lb
+2025-05-01 13:49:35,017 - INFO - Contenedor parado: lb
+2025-05-01 13:49:45,055 - INFO - Contenedor cl creado con éxito.
+2025-05-01 13:49:45,095 - INFO - Conectando cl al bridge lxdbr1 por eth1
+2025-05-01 13:49:45,129 - INFO - Contenedor cl conectado a eth1 con ip 134.3.1.11 
+2025-05-01 13:49:45,508 - INFO - Contenedor iniciado: cl
+2025-05-01 13:49:48,431 - INFO - Contenedor parado: cl
+2025-05-01 13:49:48,431 - INFO - Infraestructura creada correctamente.
+2025-05-01 13:49:55,669 - INFO - Contenedor iniciado: s1
+2025-05-01 13:49:55,924 - INFO - Contenedor iniciado: cl
+2025-05-01 13:49:56,310 - INFO - Contenedor iniciado: lb
+2025-05-01 13:49:56,310 - INFO - Todos los contenedores han sido iniciados
+2025-05-01 13:49:56,316 - INFO - Consola del contenedor s1 abierta correctamente
+2025-05-01 13:49:56,319 - INFO - Consola del contenedor cl abierta correctamente
+2025-05-01 13:49:56,338 - INFO - Consola del contenedor lb abierta correctamente
+2025-05-01 13:50:00,724 - INFO - Listando contenedores

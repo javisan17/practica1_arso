@@ -5,7 +5,7 @@ from utils.containers import create_container, start_container, stop_container, 
 from utils.image import create_image, delete_image
 from utils.bridges import create_bridge, config_bridge, attach_network, delete_bridge
 from utils.file import save_num_servers
-from utils.balanceador import change_netplan
+from utils.balanceador import change_netplan_hand, change_netplan
 
 
 """
@@ -34,7 +34,7 @@ def create_all(n_servers):
     create_image()
 
     #Crear bridges lxdbr0 y lxdbr1
-  # create_bridge(bridge_name=BRIDGES["LAN1"])
+    create_bridge(bridge_name=BRIDGES["LAN1"])
     config_bridge(bridge_name=BRIDGES["LAN1"], ipv4=BRIDGES_IPV4["lxdbr0"])
     create_bridge(bridge_name=BRIDGES["LAN2"])
     config_bridge(bridge_name=BRIDGES["LAN2"], ipv4=BRIDGES_IPV4["lxdbr1"])
@@ -65,6 +65,7 @@ def create_all(n_servers):
     create_container(name=VM_NAMES["cliente"])
     attach_network(container=VM_NAMES["cliente"], bridge=BRIDGES["LAN2"], iface="eth1")
     config_container(name=VM_NAMES["cliente"], iface="eth1", ip="134.3.1.11")
+
     start_container(name=VM_NAMES["cliente"])
     change_netplan(name=VM_NAMES["cliente"])
     stop_container(name=VM_NAMES["cliente"])
@@ -158,12 +159,12 @@ def create_server ():
 
 def delete_last_server():
     """
-    Eliminar el ultimo servidor disponible entre s1 y s5.
+    Eliminar el ultimo servidor disponible entre s2 y s5.
     """
 
     logger.info("Buscando último servidor para eliminar...")
 
-    for i in reversed(range(MAX_SERVERS)):
+    for i in reversed(range(1, MAX_SERVERS)):
         name = VM_NAMES["servidores"][i]
         result = subprocess.run(["lxc", "info", name], capture_output=True, text=True)
         if "not found" not in result.stderr:
@@ -172,7 +173,7 @@ def delete_last_server():
             logger.info(f"Servidor {name} eliminado correctamente.")
             return
 
-    logger.warning("No hay servidores creados. No se puede eliminar ninguno.")
+    logger.warning("No hay servidores s2 a s5 creados. No se puede eliminar ninguno. El servidor s1 siempre debe estar disponible.")
 
 
 def start_server(name):

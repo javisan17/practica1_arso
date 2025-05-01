@@ -42,46 +42,55 @@ def main():
             return
 
    #ORDENES 
+   
 
-    if orden == "create":
-        create_all(n_servers=n_servers)
+    match orden:
+        case "create":
+            create_all(n_servers=n_servers)
 
-    elif orden == "start":
-        start_all(n_servers=n_servers)
-        show_consoles(n_servers=n_servers)
-    
-    elif orden == "list":
-        list_containers()
+        case "start":
+            start_all(n_servers=n_servers)
+            show_consoles(n_servers=n_servers)
 
-    elif orden == "delete":
-        delete_all(n_servers=n_servers)
+        case "list":
+            list_containers()
 
-    elif orden == "stop":
-        stop_all(n_servers=n_servers)
-        close_consoles(n_servers=n_servers)
+        case "delete":
+            delete_all(n_servers=n_servers)
 
-    elif orden == "create_server":
-        create_server()
-        n_servers = n_servers + 1 
-    
-    elif orden == "delete_last_server":
-        delete_last_server()
-        n_servers = n_servers - 1
+        case "stop":
+            stop_all(n_servers=n_servers)
+            close_consoles(n_servers=n_servers)
 
-    elif orden == "start_server":
-        if len(sys.argv) < 3:
-            print("Uso: python3 pfinal1.py start_server <nombre_servidor>")
-            sys.exit(1)
-        name = sys.argv[2]
-        start_server(name=name)
-        show_console(name=name)
-    
-    elif orden == "stop_server":
-        if len(sys.argv) < 3:
-            print("Uso: python3 pfinal1.py stop_server <nombre_servidor>")
-            sys.exit(1)
-        name = sys.argv[2]
-        stop_server(name=name)
+        case "create_server":
+            if n_servers < MAX_SERVERS:
+                create_server()
+
+            else:
+                print("No se pueden crear más de 5 servidores.")
+
+        case "delete_last_server":
+            if n_servers > MIN_SERVERS:
+                delete_last_server()
+
+            else:
+                print("No se puede eliminar el servidor s1.")
+
+        case "start_server":
+            if len(sys.argv) < 3:
+                print("Uso: python3 pfinal1.py start_server <nombre_servidor>")
+                sys.exit(1)
+            name = sys.argv[2]
+            start_server(name=name)
+            show_console(name=name)
+
+        case "stop_server":
+            if len(sys.argv) < 3:
+                print("Uso: python3 pfinal1.py stop_server <nombre_servidor>")
+                sys.exit(1)
+            name = sys.argv[2]
+            stop_server(name=name)
+        
 
 if __name__ == "__main__":
     main()
