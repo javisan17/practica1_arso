@@ -26,14 +26,14 @@ def create_image():
 
     result = subprocess.run(["lxc", "image", "info", IMAGE_DEFAULT], capture_output=True, text=True)
     if "not found" in result.stderr:
-        logger.warning(f"La imagen {IMAGE_DEFAULT} no está importada. Se procederá a importarla.")
+        logger.info(f"La imagen {IMAGE_DEFAULT} no está importada. Se procederá a importarla.")
         try:
             subprocess.run(["lxc", "image", "import", "/mnt/vnx/repo/arso/ubuntu2004.tar.gz", "--alias", IMAGE_DEFAULT], check=True)
             logger.info(f"Imagen {IMAGE_DEFAULT} importada con éxito.")
         except subprocess.CalledProcessError as e:
             logger.error(f"Error al importar la imagen {IMAGE_DEFAULT}: {e}")
     else:
-        logger.info(f"La imagen {IMAGE_DEFAULT} ya está disponible.")
+        logger.warning(f"La imagen {IMAGE_DEFAULT} ya está disponible.")
 
 
 def delete_image():

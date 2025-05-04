@@ -22,11 +22,16 @@ def create_container(name):
     Crear un contenedor a partir de una imagen
     """
     
-    #Verificar si el contenedor existe
+    logger.debug(f"Intentando crear el contenedor {name}")
     result = subprocess.run(["lxc", "info", name], capture_output=True, text=True)
     if "not found" in result.stderr:
-        subprocess.run(["lxc", "init", IMAGE_DEFAULT, name], check=True)
-        logger.info(f"Contenedor {name} creado con éxito.")
+        try:
+            subprocess.run(["lxc", "init", IMAGE_DEFAULT, name], check=True)
+            logger.info(f"Contenedor {name} creado con éxito.")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Error al crear el contenedor {name}: {e}")
+    else:
+        logger.warning(f"El contenedor {name} ya existe.")
 
     ###CREAR VACIO DA PROBLEMAS
     #subprocess.run(["lxc", "config", "device", "remove", "name", "eth0"], check=True)
@@ -37,13 +42,19 @@ def start_container(name):
     Arrancar un contenedor
     """
 
-    #Verificar si el contedor ya está arrancado
-    result = subprocess.run(["lxc","info",name], check=True, capture_output=True, text=True)
-    if "Status: RUNNING" in result.stdout:
-        return
-    elif "Status: STOPPED" in result.stdout:
-        subprocess.run(["lxc", "start", name], check=True)
-        logger.info(f"Contenedor iniciado: {name}")
+    logger.debug(f"Iniciando verificación de estado del contenedor {name}")
+    try:
+        result = subprocess.run(["lxc", "info", name], check=True, capture_output=True, text=True)
+        if "Status: RUNNING" in result.stdout:
+            logger.info(f"Contenedor {name} ya está en ejecución.")
+            return
+        elif "Status: STOPPED" in result.stdout:
+            subprocess.run(["lxc", "start", name], check=True)
+            logger.info(f"Contenedor iniciado: {name}")
+        else:
+            logger.warning(f"Estado desconocido para el contenedor {name}")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Error al iniciar el contenedor {name}: {e}")
 
 
 def stop_container(name):
@@ -51,13 +62,17 @@ def stop_container(name):
     Detener un contenedor
     """
 
-    #Verificar si el contedor ya está detenido
-    state = subprocess.run(["lxc","info",name], capture_output=True, text=True)
+    logger.debug(f"Verificando estado antes de detener {name}")
+    state = subprocess.run(["lxc", "info", name], capture_output=True, text=True)
     if "Status: STOPPED" in state.stdout:
+        logger.info(f"Contenedor {name} ya está detenido.")
         return
     elif "Status: RUNNING" in state.stdout:
-        subprocess.run(["lxc", "stop", name], check=True)
-        logger.info(f"Contenedor parado: {name}")
+        try:
+            subprocess.run(["lxc", "stop", name], check=True)
+            logger.info(f"Contenedor parado: {name}")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"No se pudo detener el contenedor {name}: {e}")
 
 
 def delete_container(name):
@@ -65,8 +80,12 @@ def delete_container(name):
     Eliminar un contenedor
     """
     
-    subprocess.run(["lxc", "delete", name, "--force"], check=True)
-    logger.info(f"Contenedor eliminado: {name}")
+    logger.debug(f"Eliminando contenedor {name}")
+    try:
+        subprocess.run(["lxc", "delete", name, "--force"], check=True)
+        logger.info(f"Contenedor eliminado: {name}")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Error al eliminar el contenedor {name}: {e}")
 
 
 def config_container(name, iface, ip):
@@ -74,5 +93,9 @@ def config_container(name, iface, ip):
     Configurar un contenedor en una red
     """
 
-    subprocess.run(["lxc", "config", "device", "set", name, iface, "ipv4.address", ip])
-    logger.info(f"Contenedor {name} conectado a {iface} con ip {ip} ")
+    logger.debug(f"Configurando red para {name}: iface={iface}, ip={ip}")
+    try:
+        subprocess.run(["lxc", "config", "device", "set", name, iface, "ipv4.address", ip], check=True)
+        logger.info(f"Contenedor {name} conectado a {iface} con IP {ip}")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"No se pudo configurar la red del contenedor {name}: {e}")
