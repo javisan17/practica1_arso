@@ -1,7 +1,8 @@
 import sys, subprocess
 from consts import VALID_ORDERS, DEFAULT_SERVERS, MIN_SERVERS, MAX_SERVERS, IMAGE_DEFAULT
-from ordenes import create_all, start_all, list_containers, delete_all, stop_all, create_server, delete_last_server, start_server, stop_server
-from utils.file import load_num_servers
+from ordenes import create_all, start_all, list_containers, delete_all
+from ordenes_opcionales import stop_all, create_server, delete_last_server, start_server, stop_server
+from utils.file import save_num_servers, load_num_servers
 from utils.console import show_consoles, show_console, close_consoles
 
 def main():
@@ -13,11 +14,6 @@ def main():
     if orden not in VALID_ORDERS:
         print(f"Orden no válida. Usa alguna de: {VALID_ORDERS}")
         return
-    
-    
-    """
-    Iniciar sesiones e imágenes
-    """
 
 
     #Determinar número de servidores
@@ -42,7 +38,6 @@ def main():
             return
 
    #ORDENES 
-   
 
     match orden:
         case "create":
@@ -65,6 +60,8 @@ def main():
         case "create_server":
             if n_servers < MAX_SERVERS:
                 create_server()
+                n_servers=n_servers+1
+                save_num_servers(n_servers)
 
             else:
                 print("No se pueden crear más de 5 servidores.")
@@ -72,6 +69,8 @@ def main():
         case "delete_last_server":
             if n_servers > MIN_SERVERS:
                 delete_last_server()
+                n_servers=n_servers-1
+                save_num_servers(n_servers)
 
             else:
                 print("No se puede eliminar el servidor s1.")

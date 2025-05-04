@@ -42,7 +42,7 @@ def show_console(name):
     logger.info(f"Consola del contenedor {name} abierta correctamente")
 
 
-#ES UN POCO IRRELAVANTES PORQUE CUANDO SE PARAN LOS SERVIDORES LAS CONSOLAS SE CIERRAN AUTOMATICAMENTE
+###ES UN POCO IRRELAVANTES PORQUE CUANDO SE PARAN LOS SERVIDORES LAS CONSOLAS SE CIERRAN AUTOMATICAMENTE
 def close_consoles(n_servers):
     """
     Cerrar las consolas de los contenedores
