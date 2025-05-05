@@ -1,3 +1,9 @@
+"""
+JAVIER SÁNCHEZ MAYORAL
+ENRIQUE GALINDO ALCOJOR
+"""
+
+
 import sys, subprocess
 from logger import setup_logger, get_logger
 from consts import VALID_ORDERS, DEFAULT_SERVERS, MIN_SERVERS, MAX_SERVERS, IMAGE_DEFAULT
