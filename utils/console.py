@@ -40,6 +40,7 @@ def show_console(name):
     """
 
     try:
+        orden=f"lxc exec {name} bash"
         subprocess.Popen(["xterm", "-e", orden])
         logger.info(f"Consola del contenedor {name} abierta correctamente")
     except Exception as e:
@@ -47,7 +48,7 @@ def show_console(name):
 
 
 ###ES UN POCO IRRELAVANTES PORQUE CUANDO SE PARAN LOS SERVIDORES LAS CONSOLAS SE CIERRAN AUTOMATICAMENTE
-def close_consoles(n_servers):
+def close_consoles():
     """
     Cerrar las consolas de los contenedores
     """

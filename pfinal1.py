@@ -56,7 +56,7 @@ def main():
             print("No se ha encontrado información de servidores. Ejecuta primero 'create'.")
             return
 
-   #ORDENES 
+    #ORDENES 
 
     match orden:
         case "create":
@@ -74,7 +74,7 @@ def main():
 
         case "stop":
             stop_all(n_servers=n_servers)
-            close_consoles(n_servers=n_servers)
+            close_consoles()
 
         case "create_server":
             if n_servers < MAX_SERVERS:
