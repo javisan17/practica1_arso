@@ -28,8 +28,6 @@ LB
 def change_netplan(name):
     """
     Cambiar el archivo 50-cloud-init.yaml automáticamente del contenedor name (qué será o el balanceador o el cliente)
-    PROCEDENCIA: https://stackoverflow.com/questions/79606493/how-can-i-change-the-netplan-config-to-have-two-networks-cards-containers-linux
-    Está adaptado a nuestro código
     """
 
     logger.debug(f"Iniciando cambio de netplan en {name}")
@@ -39,7 +37,7 @@ def change_netplan(name):
         return
 
     try:
-        #Desactivar cloud-init
+        #Desactivar cloud-init (lo pone en el archivo 50-cloud-init.yaml)
         logger.debug(f"Desactivando cloud-init en {name}")
         subprocess.run(f"lxc exec {name} -- bash -c 'echo \"network: {{config: disabled}}\" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg'", shell=True, check=True)
 
